@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="fdcb6a1a-04bd-4215-8f9e-f914d5419855" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="1129d4d4-c15f-465b-a962-c327ab57fc3d" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP1" doc:name="Email SMTP" doc:id="bbedd106-6afb-45c6-86f0-29e505c59ede" >
+		<email:smtp-connection host="stmp.gmail.com" port="465" user="allnewthingin@gmail.com" password="572572572" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="724968c3-fd28-44a7-a1e3-fa40cbf7d51f" >
+		<email:smtps-connection host="smtp.gmail.com" user="allnewthingin@gmail.com" password="572572572">
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtps-connection>
+	</email:smtp-config>
+	<email:smtp-config name="Email_SMTP2" doc:name="Email SMTP" doc:id="e91fb113-9380-458e-af88-a8a59eb97fac" from="naidu212121@gmail.com">
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="allnewthingin@gmail.com" password="572572572" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<email:smtp-config name="Email_SMTP_miracle" doc:name="Email SMTP" doc:id="4f2e2f85-737e-4635-9ecb-4273b989cf81" >
+		<email:smtp-connection host="smtp.miraclesoft.com" port="587" user="jchandaka@miraclesoft.com" password="Janardhan@21" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="gmailFlow" doc:id="33c5945e-0453-4235-be82-2c738c0092ec" >
+		<http:listener doc:name="Listener" doc:id="58497c6c-9e83-4a14-a916-cd7558bb7626" config-ref="HTTP_Listener_config1" path="/smtps"/>
+		<set-payload value="#['Hello smtps server']" doc:name="Set Payload" doc:id="f4215743-b54e-47b1-a433-bbfc53e6c3fb" />
+		<email:send doc:name="Send" doc:id="7057da7c-c8f2-41de-8fe0-f93b642a29c0" config-ref="Email_SMTP_miracle" fromAddress="jchandaka@miraclesoft.com" subject="Mule flow">
+			<email:to-addresses >
+				<email:to-address value="jchandaka@miraclesoft.com" />
+				<email:to-address value="sappikonda@miraclesoft.com" />
+			</email:to-addresses>
+			<email:body contentType="text/plain" />
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="20579fa9-d80a-49d6-8629-8e35e50dbbec" />
+		
+	</flow>
+	<error-handler name="gmailError_Handler" doc:id="d4a09e2d-1fbc-4228-9cfc-2770ff2fa445" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="bf938c1b-e2d3-4f69-b99b-fe619104dcd6" >
+			<set-payload value="#[payload]" doc:name="Set Payload" doc:id="3e7fcf0d-4fba-4c3b-b5c1-cb53ee1e0eef" />
+		</on-error-propagate>
+	</error-handler>
+</mule>
