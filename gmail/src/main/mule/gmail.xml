@@ -55,6 +55,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 			<email:body contentType="text/plain" />
 		</email:send>
 		<logger level="INFO" doc:name="Logger" doc:id="20579fa9-d80a-49d6-8629-8e35e50dbbec" />
+		<logger level="INFO" doc:name="Logger" doc:id="5c91906c-cdb9-4e2b-af93-c30be9001d0d" />
 		
 	</flow>
 	<error-handler name="gmailError_Handler" doc:id="d4a09e2d-1fbc-4228-9cfc-2770ff2fa445" >
