@@ -39,7 +39,7 @@
 
          <muleVersion>4.2.1</muleVersion>
 
-         <applicationName>helloworldnnm</applicationName>
+         <applicationName>helloworldnnm4</applicationName>
 
       </cloudHubDeployment>
      <!--  <standaloneDeployment>
